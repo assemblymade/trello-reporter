@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  match '/receive' => 'webhook#receive', as: :webhook_receive, via: [:get, :post]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

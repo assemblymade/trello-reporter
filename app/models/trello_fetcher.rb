@@ -22,6 +22,18 @@ class TrelloFetcher
     })
   end
 
+  def card_actions(card_id:)
+    get("/cards/#{card_id}/actions", {
+      filter: [ 'addAttachmentToCard',
+                'addChecklistToCard',
+                'addMemberToCard',
+                'commentCard',
+                'createCard',
+                'updateCard'].join(','),
+      limit: 1000,
+    })
+  end
+
   def cards_with_actions(board_id:, since:, before: Time.now)
     # default filter is visible cards
     cards = get("/boards/#{board_id}/cards", {
@@ -58,13 +70,19 @@ class TrelloFetcher
   end
 
   def closed_cards(grouped_actions)
-    grouped_actions.select{|action| action[:completed]}
+    grouped_actions.select{|action| action.values.flatten.map{|x| x[:completed]}.inject{|m,o| m or o}}
   end
 
   def high_activity_cards(grouped_actions)
     mean_action_count = grouped_actions.map{|x| x.values.flatten.count}.inject(&:+) / grouped_actions.count.to_f
     std_dev_actions = Math.sqrt (grouped_actions.map{|x| x.values.flatten.count}.inject(0) { |m, i| m + (i-mean_action_count)**2 } / (grouped_actions.count - 1).to_f)
     grouped_actions.select{|action| action.values.flatten.count > mean_action_count + std_dev_actions/(ENV['SIGNIFICANCE_FACTOR'].to_f || 3.0)}
+  end
+
+  def post(path, params={})
+    url = File.join("https://api.trello.com/1", path)
+    response = RestClient.post(url, params: {key: ENV['TRELLO_KEY'], token: ENV['TRELLO_TOKEN']}.merge(params))
+    JSON.parse(response)
   end
 
   def get(path, params={})

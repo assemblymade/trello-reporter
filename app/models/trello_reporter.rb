@@ -1,4 +1,3 @@
-require './trello_fetcher'
 require 'pp'
 
 class TrelloReporter
@@ -105,4 +104,25 @@ class TrelloReporter
     end
   end
 
+  def titan_report(since:, before:, retries: 0)
+    begin
+      trello = TrelloFetcher.new
+      board = trello.boards.select{|board| board.fetch('name') == 'Titan'}.first
+      actions = trello.actions(board_id: board.fetch('id'), since: since, before: before)
+
+      # currently only processes Done cards
+      actions.each do |action|
+        payload = TitanPayload.new.process(action)
+        TitanDispatcher.publish!(payload) unless payload.nil?
+      end
+
+    rescue Exception => e
+      puts "Error occurred: #{e}"
+      if (retries -= 1) < 0
+        raise e
+      else
+        report(since: since, before: before, retries: retries)
+      end
+    end
+  end
 end

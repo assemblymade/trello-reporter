@@ -1,0 +1,7 @@
+namespace :trello => :environment do
+  desc "Deletes all highlights and then reports cards closed within last day on Trello"
+  task :report do
+    TitanDispatcher.delete_all!
+    TrelloReporter.new.titan_report(since: 1.day.ago, before: Time.now)
+  end
+end
