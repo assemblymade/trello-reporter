@@ -12,10 +12,11 @@ class TitanDispatcher
 
   # delete all highlights from this reporter
   def self.delete_all!
-    RestClient::Resource.new(
+    response = RestClient::Resource.new(
       "#{ENV['TITAN_ENDPOINT']}/reporter",
       ENV['USERNAME'],
       ENV['PASSWORD']
     ).delete
+    JSON.parse(response)
   end
 end

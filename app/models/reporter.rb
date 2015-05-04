@@ -108,6 +108,7 @@ class Reporter
       board = trello.boards.select{|board| board.fetch('name') == 'Titan'}.first
       actions = trello.actions(board_id: board.fetch('id'), since: since, before: before)
 
+      puts "#{actions.length} actions"
       # currently only processes Done cards
       actions.each do |action|
         payload = TitanPayload.new.process(action)
