@@ -1,5 +1,3 @@
-require 'pp'
-
 class TrelloReporter
 
   def create_payload(action_group)
@@ -91,7 +89,7 @@ class TrelloReporter
 
       puts "posting #{payloads.length} payloads"
       payloads.each do |payload|
-        pp payload
+        puts payload
         resource.post(payload)
       end
     rescue Exception => e
