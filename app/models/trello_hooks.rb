@@ -17,12 +17,12 @@ class TrelloHooks
   end
 
   def post(params={})
-    response = RestClient.post("https://api.trello.com/1/tokens/#{ENV['TRELLO_TOKEN']}/webhooks/?key=#{ENV['TRELLO_KEY']}", params)
+    response = RestClient.post("https://trello.com/1/tokens/#{ENV['TRELLO_TOKEN']}/webhooks/?key=#{ENV['TRELLO_KEY']}", params)
     JSON.parse(response)
   end
 
   def get(path, params={})
-    url = File.join("https://api.trello.com/1", path)
+    url = File.join("https://trello.com/1", path)
     response = RestClient.get(url, params: {key: ENV['TRELLO_KEY'], token: ENV['TRELLO_TOKEN']}.merge(params))
     JSON.parse(response)
   end

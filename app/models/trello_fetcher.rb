@@ -76,7 +76,7 @@ class TrelloFetcher
   end
 
   def post(path, params={})
-    url = File.join("https://api.trello.com/1", path)
+    url = File.join("https://trello.com/1", path)
     response = RestClient.post(url, params: {key: ENV['TRELLO_KEY'], token: ENV['TRELLO_TOKEN']}.merge(params))
     JSON.parse(response)
   end
