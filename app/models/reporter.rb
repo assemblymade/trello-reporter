@@ -1,4 +1,4 @@
-class TrelloReporter
+class Reporter
 
   def create_payload(action_group)
     values = action_group.values.flatten
