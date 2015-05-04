@@ -25,3 +25,8 @@ development:
   adapter: postgresql
   encoding: utf8
   database: trello_reporter_development
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  database: trello_reporter_production
