@@ -1,0 +1,8 @@
+deploy:
+  provider: heroku
+  api_key:
+    secure: KpCjKe4QkUHzGVGUNEHZ2mb/Cy9jKyMeqM91AaCM95mUBl2lvOkEA/qqem04k7ch+PqA7CWp4OJfc38zdgWqnENOuqp3kXriI7qldA8GdyH82dUfWe9GDtJpV8GhnvloyqhGeHnCNFl/808R9R/adjpckDzn00JqlxjrLG719h8=
+  app: titanous-trello
+  on:
+    repo: assemblymade/trello-reporter
+  run: "rake trello:report"
