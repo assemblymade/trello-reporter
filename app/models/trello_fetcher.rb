@@ -1,7 +1,3 @@
-require 'active_support/all'
-require 'restclient'
-require 'pp'
-
 class TrelloFetcher
 
   def boards
