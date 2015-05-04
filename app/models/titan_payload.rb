@@ -22,7 +22,7 @@ class TitanPayload
 
   def completed_card(action)
     closer = action['memberCreator']['username']
-    card_actions = TrelloFetcher.new.card_actions(card_id: action['card']['id'])
+    card_actions = TrelloFetcher.new.card_actions(card_id: action['data']['card']['id'])
     actors = get_actors(card_actions)
     content = action['data']['card']['name']
 
