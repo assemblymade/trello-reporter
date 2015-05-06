@@ -29,4 +29,4 @@ development:
 production:
   adapter: postgresql
   encoding: utf8
-  database: trello_reporter_production
+  database: <%= ENV["DATABASE_URL"] %>
